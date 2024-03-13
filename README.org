@@ -1,0 +1,18 @@
+#+TITLE: Slice Rush Pizza - Yet Another 3Factor App Approach
+#+AUTHOR: Jacob Duijzer
+#+STARTUP: inlineimages
+* Introduction
+* Information Flow
+
+#+BEGIN_SRC plantuml :file docs/assets/information-flow.png
+@startuml
+	participant "Hungry customer" as customer
+	queue "Azure Service Bus" as queue
+
+	customer -> queue : Order paid
+	
+@enduml
+#+END_SRC
+
+
+
