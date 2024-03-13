@@ -4,20 +4,39 @@
 * Introduction
 * Information Flow
 
-[[file:docs/assets/information-flow.png]]
+[[file:docs/assets/information-flow.png]]t
 
 #+BEGIN_SRC plantuml :file docs/assets/information-flow.png
 @startuml
 	participant "Hungry customer" as customer
 	queue "Azure Service Bus" as queue
+  entity "Order Service" as orderService
+	entity "Bakery" as bakery
+  entity "Delivery" as delivery
+  entity "Customer Service" as customerService
 
-	customer -> queue : Order paid
+	customer -> queue : Ordering Pizza
+  orderService <- queue : New pizza order
+  orderService -> customer : Payment request
+  customer -> queue : Order payment details
+  orderService <- queue : Order payment details
+  orderService -> queue : Order ready for preparation
+  bakery <- queue : Order ready for preparation
+  bakery -> queue : Order ready for delivery
+  delivery <- queue : Order ready for delivery
+  delivery -> queue : Order on the road
+  customer <- queue : Order on the road
+  delivery -> queue : Order delivered
+  orderService <- queue : Order delivered
+  customer -> queue : Order feedback
+  customerService <- queue : Order feedback
 	
 @enduml
 #+END_SRC
 
 #+RESULTS:
 [[file:docs/assets/information-flow.png]]
+
 
 
 
