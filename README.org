@@ -4,6 +4,8 @@
 * Introduction
 * Information Flow
 
+[[file:docs/assets/information-flow.png]]
+
 #+BEGIN_SRC plantuml :file docs/assets/information-flow.png
 @startuml
 	participant "Hungry customer" as customer
@@ -13,6 +15,9 @@
 	
 @enduml
 #+END_SRC
+
+#+RESULTS:
+[[file:docs/assets/information-flow.png]]
 
 
 
