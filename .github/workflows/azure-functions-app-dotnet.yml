@@ -34,6 +34,10 @@ jobs:
     steps:
     - name: 'Checkout GitHub Action'
       uses: actions/checkout@v3
+    - name: Log into Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     # If you want to use Azure RBAC instead of Publish Profile, then uncomment the task below
     # - name: 'Login via Azure CLI'
