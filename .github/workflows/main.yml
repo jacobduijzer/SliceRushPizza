@@ -2,7 +2,7 @@ name: Deploy Bicep file
 on: [push]
 
 env:
-  PROJECT_NAME: "slicerushpizza"
+  PROJECT_NAME: "srp"
   LOCATION: "westeurope"
 
 jobs:
