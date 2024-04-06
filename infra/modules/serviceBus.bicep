@@ -1,7 +1,7 @@
 param projectName string
 param location string
 
-var serviceBusNamespaceName = 'sbns${projectName}${location}${uniqueString(resourceGroup().id)}}'
+var serviceBusNamespaceName = 'sbns${projectName}'
 var serviceBusQueueName = 'sbq-${projectName}-${location}-${uniqueString(resourceGroup().id)}'
 
 resource serviceBusNamespace 'Microsoft.ServiceBus/namespaces@2022-10-01-preview' = {
