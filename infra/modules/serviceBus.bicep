@@ -28,6 +28,9 @@ resource topicNewOrders 'Microsoft.ServiceBus/namespaces/topics@2022-10-01-previ
     enablePartitioning: false
     enableExpress: false
   }
+  dependsOn: [
+    serviceBusNamespace
+  ]
 }
 
 resource subneworderprocessing 'Microsoft.ServiceBus/namespaces/topics/subscriptions@2022-10-01-preview' = {
@@ -44,4 +47,7 @@ resource subneworderprocessing 'Microsoft.ServiceBus/namespaces/topics/subscript
     enableBatchedOperations: true
     autoDeleteOnIdle: 'P14D'
   }
+  dependsOn: [
+    topicNewOrders
+  ]
 }
