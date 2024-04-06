@@ -14,11 +14,14 @@
 	entity "Bakery" as bakery
   entity "Delivery" as delivery
   entity "Customer Service" as customerService
+  entity "Management Dashboard" as managementDashboard
 
 	customer -> queue : Ordering Pizza
   orderService <- queue : New pizza order
+  managementDashboard <- queue : New pizza order
   orderService -> customer : Payment request
   customer -> queue : Order payment details
+  managementDashboard <- queue : Order payment details
   orderService <- queue : Order payment details
   orderService -> queue : Order ready for preparation
   bakery <- queue : Order ready for preparation
@@ -28,8 +31,10 @@
   customer <- queue : Order on the road
   delivery -> queue : Order delivered
   orderService <- queue : Order delivered
+  managementDashboard <- queue : Order delivered
   customer -> queue : Order feedback
   customerService <- queue : Order feedback
+  managementDashboard <- queue : Order feedback
 	
 @enduml
 #+END_SRC
