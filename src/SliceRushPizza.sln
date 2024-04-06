@@ -8,11 +8,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFolder", "SolutionF
 		.contextive\definitions.yml = .contextive\definitions.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SliceRushPizza.Domain", "src\SliceRushPizza.Domain\SliceRushPizza.Domain.csproj", "{B492D9CE-0A44-468E-B6DF-4B6229690736}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SliceRushPizza.Domain", "SliceRushPizza.Domain\SliceRushPizza.Domain.csproj", "{B492D9CE-0A44-468E-B6DF-4B6229690736}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SliceRushPizza.ReceivePayment", "src\SliceRushPizza.ReceivePayment\SliceRushPizza.ReceivePayment.csproj", "{8EB89634-BF2C-47EB-92BD-633972869416}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SliceRushPizza.ReceivePayment", "SliceRushPizza.ReceivePayment\SliceRushPizza.ReceivePayment.csproj", "{8EB89634-BF2C-47EB-92BD-633972869416}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SliceRushPizza.ManagementDashboard", "src\SliceRushPizza.ManagementDashboard\SliceRushPizza.ManagementDashboard.csproj", "{006E8EB5-C4DC-4A5F-A204-5AF348BBA1BB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SliceRushPizza.ManagementDashboard", "SliceRushPizza.ManagementDashboard\SliceRushPizza.ManagementDashboard.csproj", "{006E8EB5-C4DC-4A5F-A204-5AF348BBA1BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
