@@ -2,7 +2,7 @@ param projectName string
 param location string
 param storageAccountName string
 
-var hostingPlanName = 'plan-${projectName}-${location}-functionapps'
+var hostingPlanName = 'plan-${projectName}-functionapps'
 var functionAppName = 'fn-${projectName}'
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2022-05-01' existing = {
