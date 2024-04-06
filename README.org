@@ -42,6 +42,7 @@
 #+RESULTS:
 [[file:docs/assets/information-flow.png]]
 
+* Resources
 
-
+- [[https://learn.microsoft.com/en-us/training/modules/test-bicep-code-using-github-actions/7-exercise-add-preview-job-workflow][Bicep + Github + Review]]
 
