@@ -6,7 +6,8 @@ param projectName string = 'slicerushpizza'
 @description('Provide a location for the resources.')
 param location string = 'westeurope'
 
-var resourceGroupName = 'rg-${projectName}-${location}'
+@description('Provide a full resource group name.')
+param resourceGroupName string = 'rg-${projectName}-${location}'
 
 targetScope = 'subscription'
 

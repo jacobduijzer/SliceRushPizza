@@ -19,11 +19,11 @@ jobs:
         # Subscription ID
         subscription: ${{ secrets.AZURE_SUBSCRIPTION }}
         # Resource group name
-        # resourceGroup: 
+        resourceGroup: rg-slicerushpizza-westeurope
         # ARM template or Bicep file
         templateFile: infra/main.bicep
         # Additional parameters to be applied on the ARM template or Bicep. Multiple parameters should be separated by spaces.
-        additionalParameters: 'projectName=slicerushpizza location=westeurope'
+        additionalParameters: 'projectName=slicerushpizza location=westeurope resourceGroupName=rg-slicerushpizza-westeurope'
           
 
     # - name: Deploy Bicep file
