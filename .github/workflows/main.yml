@@ -1,5 +1,10 @@
 name: Deploy Bicep file
 on: [push]
+
+env:
+  PROJECT_NAME: "slicerushpizza"
+  LOCATION: "westeurope"
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -16,19 +21,17 @@ jobs:
     - name: deployment-what-if
       uses: Azure/deployment-what-if-action@v1.0.0
       with:
-        # Subscription ID
         subscription: ${{ secrets.AZURE_SUBSCRIPTION }}
         resourceGroup: ${{ secrets.AZURE_RG }}
         templateFile: infra/main.bicep
-        additionalParameters: 'projectName=slicerushpizza location=westeurope'
-          
-
-    # - name: Deploy Bicep file
-    #   uses: azure/arm-deploy@v1
-    #   with:
-    #     subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-    #     #resourceGroupName: ${{ secrets.AZURE_RG }}
-    #     template: ./infra/main.bicep
-    #     parameters: 'projectName=slicerushpizza location=westeurope'
-    #     failOnStdErr: false
+        additionalParameters: 'projectName=$PROJECT_NAME location=$LOCATION'
+        
+    - name: Deploy Bicep file
+      uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+        resourceGroupName: ${{ secrets.AZURE_RG }}
+        template: infra/main.bicep
+        parameters: 'projectName=$PROJECT_NAME location=$LOCATION'
+        failOnStdErr: false
 
