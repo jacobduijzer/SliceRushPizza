@@ -1,5 +1,8 @@
 name: Deploy Bicep file
-on: [push]
+on: 
+  push:
+    paths:
+      - infra/**
 
 env:
   PROJECT_NAME: "srp"
