@@ -6,15 +6,10 @@ param projectName string = 'slicerushpizza'
 @description('Provide a location for the resources.')
 param location string = 'westeurope'
 
-@description('Provide a full resource group name.')
-param resourceGroupName string = 'rg-${projectName}-${location}'
-
-targetScope = 'subscription'
-
-module rg 'modules/resourceGroup.bicep' = {
-  name: 'resourceGroupModule'
+module serviceBus 'modules/serviceBus.bicep' = {
+  name: 'serviceBusModule'
   params: {
-    name: resourceGroupName
+    projectName: projectName
     location: location
   }
 }
