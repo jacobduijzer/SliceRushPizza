@@ -94,7 +94,7 @@ resource topicNewPayment 'Microsoft.ServiceBus/namespaces/topics@2022-10-01-prev
 
 resource subNewPaymentPocessing 'Microsoft.ServiceBus/namespaces/topics/subscriptions@2022-10-01-preview' = {
   name: subscriptionNewPaymentName
-  parent: topicNewOrders
+  parent: topicNewPayment
   properties: {
     isClientAffine: false
     lockDuration: 'PT1M'
@@ -111,7 +111,7 @@ resource subNewPaymentPocessing 'Microsoft.ServiceBus/namespaces/topics/subscrip
 
 resource newPaymentListenRule 'Microsoft.ServiceBus/namespaces/topics/AuthorizationRules@2022-10-01-preview' = {
   name: 'new-payment-listen'
-  parent: topicNewOrders
+  parent: topicNewPayment
   properties: {
     rights: [
       'Listen'
@@ -121,7 +121,7 @@ resource newPaymentListenRule 'Microsoft.ServiceBus/namespaces/topics/Authorizat
 
 resource newPaymentSendRule 'Microsoft.ServiceBus/namespaces/topics/AuthorizationRules@2022-10-01-preview' = {
   name: 'new-payment-send'
-  parent: topicNewOrders
+  parent: topicNewPayment
   dependsOn: [
     newPaymentListenRule
   ]
@@ -131,7 +131,6 @@ resource newPaymentSendRule 'Microsoft.ServiceBus/namespaces/topics/Authorizatio
     ]
   }
 }
-
 
 output topicNewOrdersName string = topicNewOrderName
 output subscriptionNewOrdersName string = subscriptionNewOrderName
