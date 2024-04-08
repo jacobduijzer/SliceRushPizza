@@ -21,13 +21,13 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: deployment-what-if
-      uses: Azure/deployment-what-if-action@v1.0.0
-      with:
-        subscription: ${{ secrets.AZURE_SUBSCRIPTION }}
-        resourceGroup: ${{ secrets.AZURE_RG }}
-        templateFile: infra/main.bicep
-        additionalParameters: 'projectName=${{ env.PROJECT_NAME }} location=${{ env.LOCATION }}'
+    # - name: deployment-what-if
+    #   uses: Azure/deployment-what-if-action@v1.0.0
+    #   with:
+    #     subscription: ${{ secrets.AZURE_SUBSCRIPTION }}
+    #     resourceGroup: ${{ secrets.AZURE_RG }}
+    #     templateFile: infra/main.bicep
+    #     additionalParameters: 'projectName=${{ env.PROJECT_NAME }} location=${{ env.LOCATION }}'
         
     - name: Deploy Bicep file
       uses: azure/arm-deploy@v1
