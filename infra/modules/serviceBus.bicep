@@ -3,7 +3,7 @@ param location string
 
 var serviceBusNamespaceName = 'sbns${projectName}'
 var topicNewOrderName = 'topic-new-order'
-var subscriptionNewOrderName = '${topicNewOrderName}/sub-new-order-processing'
+var subscriptionNewOrderName = 'sub-new-order-processing'
 
 resource serviceBusNamespace 'Microsoft.ServiceBus/namespaces@2022-10-01-preview' = {
   name: serviceBusNamespaceName
