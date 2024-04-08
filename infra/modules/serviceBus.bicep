@@ -53,7 +53,8 @@ resource subNeworderprocessing 'Microsoft.ServiceBus/namespaces/topics/subscript
 }
 
 resource ruleListen 'Microsoft.ServiceBus/namespaces/AuthorizationRules@2022-10-01-preview' = {
-  name: '${serviceBusNamespaceName}/${topicNewOrderName}/listenRule'
+  name: 'listenRule'
+  parent: serviceBusNamespace
   properties: {
     rights: [
       'Listen'
@@ -62,7 +63,8 @@ resource ruleListen 'Microsoft.ServiceBus/namespaces/AuthorizationRules@2022-10-
 }
 
 resource ruleSend 'Microsoft.ServiceBus/namespaces/AuthorizationRules@2022-10-01-preview' = {
-  name: '${serviceBusNamespaceName}/${topicNewOrderName}/sendRule'
+  name: 'sendRule'
+  parent: serviceBusNamespace
   dependsOn: [
     ruleListen
   ]
