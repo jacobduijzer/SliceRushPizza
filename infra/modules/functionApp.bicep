@@ -1,6 +1,8 @@
 param projectName string
 param location string
 param storageAccountName string
+param serviceBusName string
+param serviceBusTopicName string
 param listenRuleName string
 param sendRuleName string
 
@@ -11,11 +13,20 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2022-05-01' existing 
   name: storageAccountName
 }
 
-resource ruleListen 'Microsoft.ServiceBus/namespaces/AuthorizationRules@2022-10-01-preview' existing = {
+resource serviceBusNamespace 'Microsoft.ServiceBus/namespaces@2021-11-01' existing = {
+  name: serviceBusName
+}
+
+resource serviceBusTopic 'Microsoft.ServiceBus/namespaces/topics@2021-11-01' existing = {
+  name: serviceBusTopicName
+  parent: serviceBusNamespace
+}
+
+resource ruleListen 'Microsoft.ServiceBus/namespaces/topics/AuthorizationRules@2022-10-01-preview' existing = {
   name: listenRuleName
 }
 
-resource ruleSend 'Microsoft.ServiceBus/namespaces/AuthorizationRules@2022-10-01-preview' existing = {
+resource ruleSend 'Microsoft.ServiceBus/namespaces/topics/AuthorizationRules@2022-10-01-preview' existing = {
   name: sendRuleName
 }
 
@@ -70,7 +81,7 @@ resource functionApp 'Microsoft.Web/sites@2021-03-01' = {
         }
         {
           name: 'AzureServiceBusOrdersListenConnectionString'
-          value: ruleListen.listKeys().primaryKey
+          value: ruleListen.listKeys().primaryConnectionString
         }
         // {
         //   name: 'AzureServiceBusOrdersSendConnectionString'
