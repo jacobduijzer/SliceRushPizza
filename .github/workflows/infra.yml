@@ -1,4 +1,4 @@
-name: Deploy Bicep file
+name: Azure Infrastructure Deployment
 on: 
   push:
     paths:
