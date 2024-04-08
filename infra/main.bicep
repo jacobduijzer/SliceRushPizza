@@ -43,5 +43,6 @@ module functionApp 'modules/functionApp.bicep' = {
   }
   dependsOn: [
     storageAccount
+    serviceBus
   ]
 }
