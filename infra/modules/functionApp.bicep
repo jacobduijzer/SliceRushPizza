@@ -1,5 +1,6 @@
 param projectName string
 param location string
+param applicationInsightsName string
 param storageAccountName string
 param newOrdersTopicName string
 param newOrdersSubscriptionName string
@@ -15,6 +16,10 @@ var functionAppName = 'fn-${projectName}'
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2022-05-01' existing = {
   name: storageAccountName
+}
+
+resource applicationInsights 'Microsoft.Insights/components@2020-02-02' existing = {
+  name: applicationInsightsName
 }
 
 resource hostingPlan 'Microsoft.Web/serverfarms@2021-03-01' = {
@@ -58,10 +63,14 @@ resource functionApp 'Microsoft.Web/sites@2021-03-01' = {
           name: 'WEBSITE_NODE_DEFAULT_VERSION'
           value: '~14'
         }
-        // {
-        //   name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
-        //   value: applicationInsights.properties.InstrumentationKey
-        // }
+        {
+          name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
+          value: applicationInsights.properties.InstrumentationKey
+        }
+        {
+          name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
+          value: applicationInsights.properties.ConnectionString
+        }
         {
           name: 'FUNCTIONS_WORKER_RUNTIME'
           value: 'dotnet'
@@ -105,6 +114,3 @@ resource functionApp 'Microsoft.Web/sites@2021-03-01' = {
     httpsOnly: true
   }
 }
-
-
-

@@ -43,6 +43,7 @@ module functionApp 'modules/functionApp.bicep' = {
   params: { 
     projectName: projectName
     location: location
+    applicationInsightsName: applicationInsights.outputs.appiName
     storageAccountName: storageAccount.outputs.name
     newOrdersTopicName: serviceBus.outputs.topicNewOrdersName
     newOrdersSubscriptionName: serviceBus.outputs.subscriptionNewOrdersName
