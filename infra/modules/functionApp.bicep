@@ -1,12 +1,22 @@
 param projectName string
 param location string
 param storageAccountName string
+param listenRuleName string
+param sendRuleName string
 
 var hostingPlanName = 'plan-${projectName}-functionapps'
 var functionAppName = 'fn-${projectName}'
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2022-05-01' existing = {
   name: storageAccountName
+}
+
+resource ruleListen 'Microsoft.ServiceBus/namespaces/AuthorizationRules@2022-10-01-preview' existing = {
+  name: listenRuleName
+}
+
+resource ruleSend 'Microsoft.ServiceBus/namespaces/AuthorizationRules@2022-10-01-preview' existing = {
+  name: sendRuleName
 }
 
 resource hostingPlan 'Microsoft.Web/serverfarms@2021-03-01' = {
@@ -57,6 +67,14 @@ resource functionApp 'Microsoft.Web/sites@2021-03-01' = {
         {
           name: 'FUNCTIONS_WORKER_RUNTIME'
           value: 'dotnet'
+        }
+        {
+          name: 'AzureServiceBusOrdersListenConnectionString'
+          value: ruleListen.listKeys().primaryConnectionString
+        }
+        {
+          name: 'AzureServiceBusOrdersSendConnectionString'
+          value: ruleSend.listKeys().primaryConnectionString
         }
       ]
       ftpsState: 'FtpsOnly'

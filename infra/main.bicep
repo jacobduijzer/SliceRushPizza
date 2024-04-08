@@ -36,6 +36,8 @@ module functionApp 'modules/functionApp.bicep' = {
     projectName: projectName
     location: location
     storageAccountName: storageAccount.outputs.name
+    listenRuleName: serviceBus.outputs.ruleListenName
+    sendRuleName: serviceBus.outputs.ruleSendName
   }
   dependsOn: [
     storageAccount
