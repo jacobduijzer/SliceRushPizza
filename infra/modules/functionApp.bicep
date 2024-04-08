@@ -1,33 +1,13 @@
 param projectName string
 param location string
 param storageAccountName string
-param serviceBusName string
-param serviceBusTopicName string
-param listenRuleName string
-param sendRuleName string
+param listenRuleConnectionString string
 
 var hostingPlanName = 'plan-${projectName}-functionapps'
 var functionAppName = 'fn-${projectName}'
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2022-05-01' existing = {
   name: storageAccountName
-}
-
-resource serviceBusNamespace 'Microsoft.ServiceBus/namespaces@2021-11-01' existing = {
-  name: serviceBusName
-}
-
-resource serviceBusTopic 'Microsoft.ServiceBus/namespaces/topics@2021-11-01' existing = {
-  name: serviceBusTopicName
-  parent: serviceBusNamespace
-}
-
-resource ruleListen 'Microsoft.ServiceBus/namespaces/topics/AuthorizationRules@2022-10-01-preview' existing = {
-  name: listenRuleName
-}
-
-resource ruleSend 'Microsoft.ServiceBus/namespaces/topics/AuthorizationRules@2022-10-01-preview' existing = {
-  name: sendRuleName
 }
 
 resource hostingPlan 'Microsoft.Web/serverfarms@2021-03-01' = {
@@ -81,12 +61,13 @@ resource functionApp 'Microsoft.Web/sites@2021-03-01' = {
         }
         {
           name: 'AzureServiceBusOrdersListenConnectionString'
-          value: ruleListen.listKeys().primaryConnectionString
+          value: listenRuleConnectionString
+          //value: listKeys(ruleListen.id, ruleListen.apiVersion).primaryConnectionString
         }
-        {
-          name: 'AzureServiceBusOrdersSendConnectionString'
-          value: ruleSend.listKeys().primaryConnectionString
-        }
+        // {
+        //   name: 'AzureServiceBusOrdersSendConnectionString'
+        //   value: ruleSend.listKeys().primaryConnectionString
+        // }
       ]
       ftpsState: 'FtpsOnly'
       minTlsVersion: '1.2'

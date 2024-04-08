@@ -76,8 +76,6 @@ resource ruleSend 'Microsoft.ServiceBus/namespaces/AuthorizationRules@2022-10-01
 }
 
 
-output serviceBusNamespace string = serviceBusNamespaceName
-output serviceBusTopic string = topicNewOrderName
-output ruleListenName string = ruleListen.name
+output ruleListenConnectionString string = ruleListen.listKeys().primaryConnectionString
 output ruleSendName string = ruleSend.name
 
