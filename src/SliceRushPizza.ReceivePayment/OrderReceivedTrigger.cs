@@ -7,7 +7,7 @@ namespace SliceRushPizza.ReceivePayment;
 public class OrderReceivedTrigger
 {
     [FunctionName("OrderReceivedTrigger")]
-    public async Task RunAsync([ServiceBusTrigger("%NewOrdersTopicName%", "NewOrdersSubscriptionName", Connection = "AzureServiceBusOrdersListenConnectionString")] string mySbMsg,
+    public async Task RunAsync([ServiceBusTrigger("topic-new-order", "sub-new-order-processing", Connection = "AzureServiceBusOrdersListenConnectionString")] string mySbMsg,
         ILogger log)
     {
         log.LogInformation($"C# ServiceBus topic trigger function processed message: {mySbMsg}");
