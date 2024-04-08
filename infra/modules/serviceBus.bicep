@@ -140,5 +140,5 @@ output connectionStringNewOrdersSend string = newOrderSendRule.listKeys().primar
 output topicNewPaymentName string = topicNewPaymentName
 output subscriptionNewPaymentName string = subscriptionNewPaymentName
 output connectionStringNewPaymentsListen string = newPaymentListenRule.listKeys().primaryConnectionString
-output connectionStringNewPaymentsSend string = newPaymentListenRule.listKeys().primaryConnectionString
+output connectionStringNewPaymentsSend string = newPaymentSendRule.listKeys().primaryConnectionString
 
