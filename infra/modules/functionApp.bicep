@@ -24,7 +24,6 @@ resource serviceBusTopic 'Microsoft.ServiceBus/namespaces/topics@2021-11-01' exi
 
 resource ruleListen 'Microsoft.ServiceBus/namespaces/topics/AuthorizationRules@2022-10-01-preview' existing = {
   name: listenRuleName
-  parent: serviceBusTopic
 }
 
 resource ruleSend 'Microsoft.ServiceBus/namespaces/topics/AuthorizationRules@2022-10-01-preview' existing = {
