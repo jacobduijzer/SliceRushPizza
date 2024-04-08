@@ -6,8 +6,16 @@ param projectName string = 'srp'
 @description('Provide a location for the resources.')
 param location string = 'westeurope'
 
+module applicationInsights 'modules/applicationInsights.bicep' = {
+  name: 'ApplicationInsights'
+  params: {
+    projectName: projectName
+    location: location
+  }
+}
+
 module storageAccount 'modules/storageAccount.bicep' = {
-  name: 'storageAccountModule'
+  name: 'StorageAccount'
   params: {
     projectName: projectName
     location: location
@@ -15,7 +23,7 @@ module storageAccount 'modules/storageAccount.bicep' = {
 }
 
 module containerRegistry 'modules/containerRegistry.bicep' = {
-  name: 'containerRegistryModule'
+  name: 'ContainerRegistry'
   params: {
     projectName: projectName
     location: location
@@ -23,7 +31,7 @@ module containerRegistry 'modules/containerRegistry.bicep' = {
 }
 
 module serviceBus 'modules/serviceBus.bicep' = {
-  name: 'serviceBusModule'
+  name: 'ServiceBus'
   params: {
     projectName: projectName
     location: location
@@ -31,15 +39,19 @@ module serviceBus 'modules/serviceBus.bicep' = {
 }
 
 module functionApp 'modules/functionApp.bicep' = {
-  name: 'functionAppModule'
+  name: 'FunctionApp'
   params: { 
     projectName: projectName
     location: location
     storageAccountName: storageAccount.outputs.name
-    newOrderTopicName: serviceBus.outputs.topicNewOrderName
-    newOrderSubscriptionName: serviceBus.outputs.subscriptionNewOrderName
-    listenRuleConnectionString: serviceBus.outputs.ruleListenConnectionString
-    ruleSendConnectionString: serviceBus.outputs.ruleSendConnectionString
+    newOrdersTopicName: serviceBus.outputs.topicNewOrdersName
+    newOrdersSubscriptionName: serviceBus.outputs.subscriptionNewOrdersName
+    newOrdersListenRuleConnectionString: serviceBus.outputs.connectionStringNewOrdersListen
+    newOrdersSendRuleConnectionString: serviceBus.outputs.connectionStringNewOrdersSend
+    newPaymentsTopicName: serviceBus.outputs.topicNewPaymentName
+    newPaymentsSubscriptionName: serviceBus.outputs.subscriptionNewPaymentName
+    newPaymentsListenRuleConnectionString: serviceBus.outputs.connectionStringNewPaymentsListen
+    newPaymentsSendRuleConnectionString: serviceBus.outputs.connectionStringNewPaymentsSend
   }
   dependsOn: [
     storageAccount

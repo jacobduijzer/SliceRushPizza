@@ -1,10 +1,14 @@
 param projectName string
 param location string
 param storageAccountName string
-param newOrderTopicName string
-param newOrderSubscriptionName string
-param listenRuleConnectionString string
-param ruleSendConnectionString string
+param newOrdersTopicName string
+param newOrdersSubscriptionName string
+param newOrdersListenRuleConnectionString string
+param newOrdersSendRuleConnectionString string
+param newPaymentsTopicName string
+param newPaymentsSubscriptionName string
+param newPaymentsListenRuleConnectionString string
+param newPaymentsSendRuleConnectionString string
 
 var hostingPlanName = 'plan-${projectName}-functionapps'
 var functionAppName = 'fn-${projectName}'
@@ -64,19 +68,35 @@ resource functionApp 'Microsoft.Web/sites@2021-03-01' = {
         }
         {
           name: 'AzureServiceBusOrdersListenConnectionString'
-          value: listenRuleConnectionString
+          value: newOrdersListenRuleConnectionString
         }
         {
           name: 'AzureServiceBusOrdersSendConnectionString'
-          value: ruleSendConnectionString
+          value: newOrdersSendRuleConnectionString
         }
         {
           name: 'NewOrdersTopicName'
-          value: newOrderTopicName
+          value: newOrdersTopicName
         }
         {
           name: 'NewOrdersSubscriptionName'
-          value: newOrderSubscriptionName
+          value: newOrdersSubscriptionName
+        }
+        {
+          name: 'AzureServiceBusPaymentsListenConnectionString'
+          value: newPaymentsListenRuleConnectionString
+        }
+        {
+          name: 'AzureServiceBusPaymentsSendConnectionString'
+          value: newPaymentsSendRuleConnectionString
+        }
+        {
+          name: 'NewPaymentsTopicName'
+          value: newPaymentsTopicName
+        }
+        {
+          name: 'NewPaymentsSubscriptionName'
+          value: newPaymentsSubscriptionName
         }
       ]
       ftpsState: 'FtpsOnly'

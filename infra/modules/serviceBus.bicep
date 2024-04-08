@@ -4,6 +4,8 @@ param location string
 var serviceBusNamespaceName = 'sbns${projectName}'
 var topicNewOrderName = 'topic-new-order'
 var subscriptionNewOrderName = 'sub-new-order-processing'
+var topicNewPaymentName = 'topic-new-payment'
+var subscriptionNewPaymentName = 'sub-new-payment-processing'
 
 resource serviceBusNamespace 'Microsoft.ServiceBus/namespaces@2022-10-01-preview' = {
   name: serviceBusNamespaceName
@@ -31,7 +33,7 @@ resource topicNewOrders 'Microsoft.ServiceBus/namespaces/topics@2022-10-01-previ
   }
 }
 
-resource subNeworderprocessing 'Microsoft.ServiceBus/namespaces/topics/subscriptions@2022-10-01-preview' = {
+resource subNewOrderprocessing 'Microsoft.ServiceBus/namespaces/topics/subscriptions@2022-10-01-preview' = {
   name: subscriptionNewOrderName
   parent: topicNewOrders
   properties: {
@@ -48,8 +50,8 @@ resource subNeworderprocessing 'Microsoft.ServiceBus/namespaces/topics/subscript
   }
 }
 
-resource ruleListen 'Microsoft.ServiceBus/namespaces/topics/AuthorizationRules@2022-10-01-preview' = {
-  name: 'listenRule'
+resource newOrderListenRule 'Microsoft.ServiceBus/namespaces/topics/AuthorizationRules@2022-10-01-preview' = {
+  name: 'new-order-listen'
   parent: topicNewOrders
   properties: {
     rights: [
@@ -58,11 +60,11 @@ resource ruleListen 'Microsoft.ServiceBus/namespaces/topics/AuthorizationRules@2
   }
 }
 
-resource ruleSend 'Microsoft.ServiceBus/namespaces/topics/AuthorizationRules@2022-10-01-preview' = {
-  name: 'sendRule'
+resource newOrderSendRule 'Microsoft.ServiceBus/namespaces/topics/AuthorizationRules@2022-10-01-preview' = {
+  name: 'new-order-send'
   parent: topicNewOrders
   dependsOn: [
-    ruleListen
+    newOrderListenRule
   ]
   properties: {
     rights: [
@@ -71,8 +73,73 @@ resource ruleSend 'Microsoft.ServiceBus/namespaces/topics/AuthorizationRules@202
   }
 }
 
-output ruleListenConnectionString string = ruleListen.listKeys().primaryConnectionString
-output ruleSendConnectionString string = ruleSend.listKeys().primaryConnectionString
-output topicNewOrderName string = topicNewOrderName
-output subscriptionNewOrderName string = subscriptionNewOrderName
+// Payment
+
+resource topicNewPayment 'Microsoft.ServiceBus/namespaces/topics@2022-10-01-preview' = {
+  name: topicNewPaymentName
+  parent: serviceBusNamespace
+  properties: {
+    maxMessageSizeInKilobytes: 256
+    defaultMessageTimeToLive: 'P14D'
+    maxSizeInMegabytes: 1024
+    requiresDuplicateDetection: false
+    duplicateDetectionHistoryTimeWindow: 'PT10M'
+    enableBatchedOperations: true
+    supportOrdering: false
+    autoDeleteOnIdle: 'P10675199DT2H48M5.4775807S'
+    enablePartitioning: false
+    enableExpress: false
+  }
+}
+
+resource subNewPaymentPocessing 'Microsoft.ServiceBus/namespaces/topics/subscriptions@2022-10-01-preview' = {
+  name: subscriptionNewPaymentName
+  parent: topicNewOrders
+  properties: {
+    isClientAffine: false
+    lockDuration: 'PT1M'
+    requiresSession: false
+    defaultMessageTimeToLive: 'P14D'
+    deadLetteringOnMessageExpiration: false
+    deadLetteringOnFilterEvaluationExceptions: false
+    maxDeliveryCount: 10
+    status: 'Active'
+    enableBatchedOperations: true
+    autoDeleteOnIdle: 'P14D'
+  }
+}
+
+resource newPaymentListenRule 'Microsoft.ServiceBus/namespaces/topics/AuthorizationRules@2022-10-01-preview' = {
+  name: 'new-payment-listen'
+  parent: topicNewOrders
+  properties: {
+    rights: [
+      'Listen'
+    ]
+  }
+}
+
+resource newPaymentSendRule 'Microsoft.ServiceBus/namespaces/topics/AuthorizationRules@2022-10-01-preview' = {
+  name: 'new-payment-send'
+  parent: topicNewOrders
+  dependsOn: [
+    newPaymentListenRule
+  ]
+  properties: {
+    rights: [
+      'Send'
+    ]
+  }
+}
+
+
+output topicNewOrdersName string = topicNewOrderName
+output subscriptionNewOrdersName string = subscriptionNewOrderName
+output connectionStringNewOrdersListen string = newOrderListenRule.listKeys().primaryConnectionString
+output connectionStringNewOrdersSend string = newOrderSendRule.listKeys().primaryConnectionString
+
+output topicNewPaymentName string = topicNewPaymentName
+output subscriptionNewPaymentName string = subscriptionNewPaymentName
+output connectionStringNewPaymentsListen string = newOrderListenRule.listKeys().primaryConnectionString
+output connectionStringNewPaymentsSend string = newOrderSendRule.listKeys().primaryConnectionString
 

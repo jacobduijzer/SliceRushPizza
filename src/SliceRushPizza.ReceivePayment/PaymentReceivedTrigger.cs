@@ -10,8 +10,8 @@ namespace SliceRushPizza.ReceivePayment;
 public class PaymentReceivedTrigger
 {
     [FunctionName("PaymentReceivedTrigger")]
-    [return: ServiceBus("sbt-slicerushpizza-orders", Connection = "AzureServiceBusOrdersConnectionString")]
-    public async Task<Order> RunAsync([ServiceBusTrigger("sbt-slicerushpizza-payments", "sub-slicerushpizza-payments", Connection = "AzureServiceBusConnectionString")] string message,
+    // [return: ServiceBus("sbt-slicerushpizza-orders", Connection = "AzureServiceBusOrdersConnectionString")]
+    public async Task<Order> RunAsync([ServiceBusTrigger("%NewPaymentsTopicName%", "%NewPaymentsSubscriptionName%", Connection = "AzureServiceBusPaymentsListenConnectionString")] string message,
         ILogger log)
     {
         log.LogInformation($"C# ServiceBus topic trigger function processed message: {message}");
