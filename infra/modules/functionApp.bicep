@@ -70,11 +70,13 @@ resource functionApp 'Microsoft.Web/sites@2021-03-01' = {
         }
         {
           name: 'AzureServiceBusOrdersListenConnectionString'
-          value: ruleListen.listKeys().primaryConnectionString
+          value: 'test'
+          //value: ruleListen.listKeys().primaryConnectionString
         }
         {
           name: 'AzureServiceBusOrdersSendConnectionString'
-          value: ruleSend.listKeys().primaryConnectionString
+          value: 'test1'
+          //value: ruleSend.listKeys().primaryConnectionString
         }
       ]
       ftpsState: 'FtpsOnly'
