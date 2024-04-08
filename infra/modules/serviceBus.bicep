@@ -31,6 +31,27 @@ resource topicNewOrders 'Microsoft.ServiceBus/namespaces/topics@2022-10-01-previ
   dependsOn: [
     serviceBusNamespace
   ]
+
+  resource ruleListen 'AuthorizationRules@2022-10-01-preview' = {
+    name: 'listenRule'
+    properties: {
+      rights: [
+        'Listen'
+      ]
+    }
+  }
+
+  resource ruleSend 'AuthorizationRules@2022-10-01-preview' = {
+    name: 'sendRule'
+    dependsOn: [
+      ruleListen
+    ]
+    properties: {
+      rights: [
+        'Send'
+      ]
+    }
+  }
 }
 
 resource subneworderprocessing 'Microsoft.ServiceBus/namespaces/topics/subscriptions@2022-10-01-preview' = {
@@ -51,3 +72,4 @@ resource subneworderprocessing 'Microsoft.ServiceBus/namespaces/topics/subscript
     topicNewOrders
   ]
 }
+
