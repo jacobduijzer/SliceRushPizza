@@ -22,14 +22,6 @@ module storageAccount 'modules/storageAccount.bicep' = {
   }
 }
 
-module containerRegistry 'modules/containerRegistry.bicep' = {
-  name: 'ContainerRegistry'
-  params: {
-    projectName: projectName
-    location: location
-  }
-}
-
 module serviceBus 'modules/serviceBus.bicep' = {
   name: 'ServiceBus'
   params: {
