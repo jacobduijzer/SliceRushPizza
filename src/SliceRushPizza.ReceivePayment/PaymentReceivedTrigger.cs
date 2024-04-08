@@ -8,7 +8,8 @@ public class PaymentReceivedTrigger
 {
     [FunctionName("PaymentReceivedTrigger")]
     // [return: ServiceBus("sbt-slicerushpizza-orders", Connection = "AzureServiceBusOrdersConnectionString")]
-    public async Task RunAsync([ServiceBusTrigger("%NewPaymentsTopicName%", "%NewPaymentsSubscriptionName%", Connection = "AzureServiceBusPaymentsListenConnectionString")] string message,
+    public async Task RunAsync(
+        [ServiceBusTrigger("%NewPaymentsTopicName%", "%NewPaymentsSubscriptionName%", Connection = "AzureServiceBusPaymentsListenConnectionString")] string message,
         ILogger log)
     {
         log.LogInformation($"C# ServiceBus topic trigger function processed message: {message}");
