@@ -82,7 +82,7 @@ resource functionApp 'Microsoft.Web/sites@2021-03-01' = {
         }
         {
           name: 'AzureServiceBusOrdersListenConnectionString'
-          value: ruleListen.listKeys(ruleListen.apiVersion).primaryConnectionString
+          value: listKeys(ruleListen.id, ruleListen.apiVersion).primaryConnectionString
         }
         // {
         //   name: 'AzureServiceBusOrdersSendConnectionString'
