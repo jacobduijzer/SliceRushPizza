@@ -1,6 +1,8 @@
 param projectName string
 param location string
 param storageAccountName string
+param newOrderTopicName string
+param newOrderSubscriptionName string
 param listenRuleConnectionString string
 param ruleSendConnectionString string
 
@@ -67,6 +69,14 @@ resource functionApp 'Microsoft.Web/sites@2021-03-01' = {
         {
           name: 'AzureServiceBusOrdersSendConnectionString'
           value: ruleSendConnectionString
+        }
+        {
+          name: 'NewOrdersTopicName'
+          value: newOrderTopicName
+        }
+        {
+          name: 'NewOrdersSubscriptionName'
+          value: newOrderSubscriptionName
         }
       ]
       ftpsState: 'FtpsOnly'

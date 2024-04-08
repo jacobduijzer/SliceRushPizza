@@ -71,7 +71,8 @@ resource ruleSend 'Microsoft.ServiceBus/namespaces/topics/AuthorizationRules@202
   }
 }
 
-
 output ruleListenConnectionString string = ruleListen.listKeys().primaryConnectionString
 output ruleSendConnectionString string = ruleSend.listKeys().primaryConnectionString
+output topicNewOrderName string = topicNewOrderName
+output subscriptionNewOrderName string = subscriptionNewOrderName
 
