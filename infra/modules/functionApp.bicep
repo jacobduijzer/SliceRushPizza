@@ -2,6 +2,7 @@ param projectName string
 param location string
 param storageAccountName string
 param listenRuleConnectionString string
+param ruleSendConnectionString string
 
 var hostingPlanName = 'plan-${projectName}-functionapps'
 var functionAppName = 'fn-${projectName}'
@@ -62,12 +63,11 @@ resource functionApp 'Microsoft.Web/sites@2021-03-01' = {
         {
           name: 'AzureServiceBusOrdersListenConnectionString'
           value: listenRuleConnectionString
-          //value: listKeys(ruleListen.id, ruleListen.apiVersion).primaryConnectionString
         }
-        // {
-        //   name: 'AzureServiceBusOrdersSendConnectionString'
-        //   value: ruleSend.listKeys().primaryConnectionString
-        // }
+        {
+          name: 'AzureServiceBusOrdersSendConnectionString'
+          value: ruleSendConnectionString
+        }
       ]
       ftpsState: 'FtpsOnly'
       minTlsVersion: '1.2'
@@ -75,3 +75,6 @@ resource functionApp 'Microsoft.Web/sites@2021-03-01' = {
     httpsOnly: true
   }
 }
+
+
+

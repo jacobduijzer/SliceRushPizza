@@ -2,7 +2,7 @@ param projectName string
 param location string
 
 var serviceBusNamespaceName = 'sbns${projectName}'
-var topicNewOrderName = '${serviceBusNamespaceName}/topic-new-order'
+var topicNewOrderName = 'topic-new-order'
 var subscriptionNewOrderName = '${topicNewOrderName}/sub-new-order-processing'
 
 resource serviceBusNamespace 'Microsoft.ServiceBus/namespaces@2022-10-01-preview' = {
@@ -16,6 +16,7 @@ resource serviceBusNamespace 'Microsoft.ServiceBus/namespaces@2022-10-01-preview
 
 resource topicNewOrders 'Microsoft.ServiceBus/namespaces/topics@2022-10-01-preview' = {
   name: topicNewOrderName
+  parent: serviceBusNamespace
   properties: {
     maxMessageSizeInKilobytes: 256
     defaultMessageTimeToLive: 'P14D'
@@ -28,13 +29,11 @@ resource topicNewOrders 'Microsoft.ServiceBus/namespaces/topics@2022-10-01-previ
     enablePartitioning: false
     enableExpress: false
   }
-  dependsOn: [
-    serviceBusNamespace
-  ]
 }
 
 resource subNeworderprocessing 'Microsoft.ServiceBus/namespaces/topics/subscriptions@2022-10-01-preview' = {
   name: subscriptionNewOrderName
+  parent: topicNewOrders
   properties: {
     isClientAffine: false
     lockDuration: 'PT1M'
@@ -47,9 +46,6 @@ resource subNeworderprocessing 'Microsoft.ServiceBus/namespaces/topics/subscript
     enableBatchedOperations: true
     autoDeleteOnIdle: 'P14D'
   }
-  dependsOn: [
-    topicNewOrders
-  ]
 }
 
 resource ruleListen 'Microsoft.ServiceBus/namespaces/AuthorizationRules@2022-10-01-preview' = {
@@ -77,5 +73,5 @@ resource ruleSend 'Microsoft.ServiceBus/namespaces/AuthorizationRules@2022-10-01
 
 
 output ruleListenConnectionString string = ruleListen.listKeys().primaryConnectionString
-output ruleSendName string = ruleSend.name
+output ruleSendConnectionString string = ruleSend.listKeys().primaryConnectionString
 

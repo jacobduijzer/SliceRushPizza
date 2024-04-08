@@ -37,6 +37,7 @@ module functionApp 'modules/functionApp.bicep' = {
     location: location
     storageAccountName: storageAccount.outputs.name
     listenRuleConnectionString: serviceBus.outputs.ruleListenConnectionString
+    ruleSendConnectionString: serviceBus.outputs.ruleSendConnectionString
   }
   dependsOn: [
     storageAccount
