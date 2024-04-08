@@ -60,6 +60,8 @@ AzureServiceBus(azureServiceBus, "sbnssrp", "Technology", "Optional Description"
 AzureServiceBusTopic(newOrders, "topic-new-order", "Techonology", "Optional Description")
 AzureServiceBusTopic(newPayments, "topic-new-payment", "Techonology", "Optional Description")
 
+azureServiceBus --> newOrders
+azureServiceBus --> newPayments
 newOrders --> functionAlias
 functionAlias --> newPayments
 newPayments --> functionAlias2
