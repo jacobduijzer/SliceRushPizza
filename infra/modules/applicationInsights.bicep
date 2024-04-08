@@ -2,7 +2,7 @@ param projectName string
 param location string
 
 var appiName = 'appi-${projectName}'
-var logAnalyticsWorkspaceName = 'appi-law-${projectName}'
+var logAnalyticsWorkspaceName = 'log-${projectName}'
 
 resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2023-09-01' = {
   name: logAnalyticsWorkspaceName
