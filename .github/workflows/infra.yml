@@ -1,6 +1,6 @@
 name: Azure Infrastructure Deployment
-workflow_dispatch:
 on: 
+  workflow_dispatch:
   push:
     paths:
       - infra/**
