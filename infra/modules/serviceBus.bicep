@@ -75,6 +75,8 @@ resource ruleSend 'Microsoft.ServiceBus/namespaces/AuthorizationRules@2022-10-01
   }
 }
 
+
+
 output ruleListenName string = ruleListen.name
 output ruleSendName string = ruleSend.name
 

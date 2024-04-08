@@ -70,8 +70,7 @@ resource functionApp 'Microsoft.Web/sites@2021-03-01' = {
         }
         {
           name: 'AzureServiceBusOrdersListenConnectionString'
-          value: 'test'
-          //value: ruleListen.listKeys().primaryConnectionString
+          value: ruleListen.listKeys().primaryKey
         }
         // {
         //   name: 'AzureServiceBusOrdersSendConnectionString'
