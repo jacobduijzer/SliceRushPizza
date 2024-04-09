@@ -47,28 +47,100 @@
 [[file:docs/assets/azure-infra-architecture.png]]
 
 #+BEGIN_SRC plantuml :file docs/assets/azure-infra-architecture.png
+@startuml "Azure Infra Design"
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
 !define AzurePuml https://raw.githubusercontent.com/plantuml-stdlib/Azure-PlantUML/release/2-2/dist
 !includeurl AzurePuml/AzureCommon.puml
 !includeurl AzurePuml/Compute/AzureFunction.puml
+!includeurl AzurePuml/Compute/AzureAppService.puml
 !includeurl AzurePuml/Integration/AzureServiceBus.puml
 !includeurl AzurePuml/Integration/AzureServiceBusTopic.puml
 
-''actor "Person" as personAlias
-AzureFunction(functionAlias, "Order Processor", "Technology", "Optional Description")
-AzureFunction(functionAlias2, "Payment Processor", "Technology", "Optional Description")
-AzureServiceBus(azureServiceBus, "sbnssrp", "Technology", "Optional Description")
-AzureServiceBusTopic(newOrders, "topic-new-order", "Techonology", "Optional Description")
-AzureServiceBusTopic(newPayments, "topic-new-payment", "Techonology", "Optional Description")
+!$topicTech = "Azure Service Bus Topic"
+!$processorTech = "Azure Serverless Function (.NET)"
+!$fullDetails = "Order, Payment and Delivery updates"
+!$orderDetails = "Order details"
+!$deliveryDetails = "Delivery details"
+!$paymentRequestDetails = "Payment request"
+!$paymentResultDetails = "Payment result"
 
-azureServiceBus --> newOrders
-azureServiceBus --> newPayments
-newOrders --> functionAlias
-functionAlias --> newPayments
-newPayments --> functionAlias2
+Person(customer, "Hungry Customer")
+Person(deliveryGuy, "Pizza Delivery Guy")
 
-newOrders -[hidden] newPayments
-functionAlias -[hidden] functionAlias2
+AzureAppService(api, "Frontend API", "GraphQL", "")
+AzureServiceBus(azureServiceBus, "sbnssrp", "Azure Service Bus", "")
 
+Rel_D(customer, api, $fullDetails)
+BiRel_D(api, azureServiceBus, $fullDetails)
+
+System_Boundary(orderSystem, "Ordering System") {
+
+   ' Topics
+    AzureServiceBusTopic(topicNewOrders, "topic-new-order", $topicTech, "")
+    AzureServiceBusTopic(topicPaymentRequests, "topic-payment-request", $topicTech, "")
+    AzureServiceBusTopic(topicPaymentResults, "topic-payment-results", $topicTech, "")
+    
+    ' Processors
+    AzureFunction(orderProcessor, "Order Processor", $processorTech, "")
+    AzureFunction(paymentProcessor, "Payment Processor", $processorTech, "")
+
+    ' Relations
+    Rel_D(azureServiceBus, topicNewOrders, $orderDetails)
+    Rel_D(topicNewOrders, orderProcessor, $orderDetails)
+    Rel_U(orderProcessor, topicPaymentRequests, $paymentRequestDetails)
+
+    Rel_U(topicPaymentRequests, azureServiceBus, $paymentRequestDetails)
+    Rel_D(azureServiceBus, topicPaymentResults, $paymentResultDetails)
+
+    Rel_D(topicPaymentResults, paymentProcessor, $paymentRequestDetails)
+
+    Lay_R(topicNewOrders, topicPaymentRequests)
+    Lay_R(orderProcessor, paymentProcessor)
+}
+
+System_Boundary(bakerySystem, "Bakery System") {
+
+    ' Topics
+    AzureServiceBusTopic(topicPreparations, "topic-new-preparation", $topicTech, "")
+
+    ' Processors
+    AzureFunction(preparationsProcessor, "Preparations Processor", $processorTech, "")
+
+    ' Relations
+    Rel_U(paymentProcessor, topicPreparations, $orderDetails)
+    Rel_U(topicPreparations, azureServiceBus, "Process Updates")
+    Rel_D(topicPreparations, preparationsProcessor, $orderDetails)
+
+}
+
+System_Boundary(deliverySystem, "Delivery System") {
+
+    ' Topics
+    AzureServiceBusTopic(topicNewDelivery, "topic-new-deliveries", $topicTech, "")
+    AzureServiceBusTopic(topicNewDelivery, "topic-new-deliveries", $topicTech, "")
+
+    ' Processors
+    AzureFunction(deliveryProcessor, "Deliveries Processor", $processorTech, "")
+
+    ' Relations
+    Rel_U(preparationsProcessor, topicNewDelivery, $orderDetails)
+    Rel_U(topicNewDelivery, azureServiceBus, "Process Updates")
+    Rel_D(topicNewDelivery, deliveryProcessor, $orderDetails)
+    Rel_U(deliveryProcessor, deliveryGuy, $deliveryDetails)
+}
+
+System_Boundary(managementSystem, "Management System") {
+    
+    ' Topics
+
+    ' Processors
+
+    ' Relations
+}
+
+
+@enduml
 #+END_SRC 
 
 #+RESULTS:
