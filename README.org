@@ -118,7 +118,7 @@ System_Boundary(deliverySystem, "Delivery System") {
 
     ' Topics
     AzureServiceBusTopic(topicNewDelivery, "topic-new-deliveries", $topicTech, "")
-    AzureServiceBusTopic(topicNewDelivery, "topic-new-deliveries", $topicTech, "")
+    AzureServiceBusTopic(topicDelivered, "topic-delivered-orders", $topicTech, "")
 
     ' Processors
     AzureFunction(deliveryProcessor, "Deliveries Processor", $processorTech, "")
@@ -127,7 +127,7 @@ System_Boundary(deliverySystem, "Delivery System") {
     Rel_U(preparationsProcessor, topicNewDelivery, $orderDetails)
     Rel_U(topicNewDelivery, azureServiceBus, "Process Updates")
     Rel_D(topicNewDelivery, deliveryProcessor, $orderDetails)
-    Rel_U(deliveryProcessor, deliveryGuy, $deliveryDetails)
+    Rel_U(api, deliveryGuy, $deliveryDetails)
 }
 
 System_Boundary(managementSystem, "Management System") {
@@ -145,6 +145,57 @@ System_Boundary(managementSystem, "Management System") {
 
 #+RESULTS:
 [[file:docs/assets/azure-infra-architecture.png]]
+
+* GraphQL Notes
+
+** Mutation
+
+#+BEGIN_SRC 
+
+mutation placeOrder($order: OrderDtoInput!) {
+  placeOrder(order: $order) {
+    orderNumber
+  }
+}
+
+#+END_SRC
+
+#+BEGIN_SRC javascript
+{
+  "order": {
+    "orderNumber": "1",
+    "orderLines": [
+      {
+        "pizza": {
+          "pizzaId": "1",
+          "name": "Test Pizza",
+          "price": 15
+        },
+        "amount": 2
+      }
+    ]
+  }
+}
+
+#+END_SRC
+
+** Subscription
+
+#+BEGIN_SRC
+
+subscription {
+  onOrderPlaced {
+    orderNumber
+    orderLines {
+      pizza {
+        name
+      }
+      amount
+    }
+  }
+}
+
+#+END_SRC
 
 * Resources
 
