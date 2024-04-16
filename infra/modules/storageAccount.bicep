@@ -16,4 +16,9 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2022-05-01' = {
   }
 }
 
+resource tableService 'Microsoft.Storage/storageAccounts/tableServices@2023-01-01' = {
+  name: 'default'
+  parent: storageAccount
+}
+
 output name string = storageAccount.name
