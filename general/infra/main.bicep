@@ -1,5 +1,5 @@
 @minLength(3)
-@maxLength(50)
+@maxLength(8)
 @description('Provide a project name for the naming of all resources')
 param projectName string = 'srp'
 
