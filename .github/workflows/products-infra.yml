@@ -1,4 +1,4 @@
-name: Azure Infrastructure Deployment
+name: Products Infrastructure Deployment
 on: 
   workflow_dispatch:
   push:
