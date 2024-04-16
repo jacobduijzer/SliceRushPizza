@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SliceRushPizza.Products.FunctionApp", "SliceRushPizza.Products.FunctionApp\SliceRushPizza.Products.FunctionApp.csproj", "{C80CEF6F-929C-4FF8-8AD4-02AE0A7D5BD7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -10,5 +12,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C80CEF6F-929C-4FF8-8AD4-02AE0A7D5BD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C80CEF6F-929C-4FF8-8AD4-02AE0A7D5BD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C80CEF6F-929C-4FF8-8AD4-02AE0A7D5BD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C80CEF6F-929C-4FF8-8AD4-02AE0A7D5BD7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

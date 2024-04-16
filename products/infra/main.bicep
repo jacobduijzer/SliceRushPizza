@@ -3,9 +3,6 @@
 @description('Provide a project name for the naming of all resources')
 param projectName string = 'srp'
 
-@description('Provide a location for the resources.')
-param location string = 'westeurope'
-
 // existing storage account
 var storageAccountName = 'sa${projectName}${uniqueString(resourceGroup().id)}'
 
@@ -26,21 +23,21 @@ resource hostingPlan 'Microsoft.Web/serverfarms@2021-03-01' existing = {
 }
 
 // create table in storage account
-resource symbolicname 'Microsoft.Storage/storageAccounts/tableServices/tables@2023-01-01' = {
+resource tableStorage 'Microsoft.Storage/storageAccounts/tableServices/tables@2023-01-01' = {
   name: 'products'
   parent: tableService
-  properties: {
-    signedIdentifiers: [
-      {
-        accessPolicy: {
-          expiryTime: 'string'
-          permission: 'string'
-          startTime: 'string'
-        }
-        id: 'string'
-      }
-    ]
-  }
+  // properties: {
+  //   signedIdentifiers: [
+  //     {
+  //       accessPolicy: {
+  //         expiryTime: 'string'
+  //         permission: 'string'
+  //         startTime: 'string'
+  //       }
+  //       id: 'string'
+  //     }
+  //   ]
+  // }
 }
 
 // create new function app
