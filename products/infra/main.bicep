@@ -26,8 +26,6 @@ resource hostingPlan 'Microsoft.Web/serverfarms@2021-03-01' existing = {
 }
 
 // create table in storage account
-
-
 resource symbolicname 'Microsoft.Storage/storageAccounts/tableServices/tables@2023-01-01' = {
   name: 'products'
   parent: tableService
