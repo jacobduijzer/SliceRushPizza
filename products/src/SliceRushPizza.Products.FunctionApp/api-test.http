@@ -1,0 +1,16 @@
+###
+
+GET http://localhost:7071/api/GetProducts?productType=Pizza
+
+###
+
+POST http://localhost:7071/api/AddProducts
+Content-Type: application/json
+
+{
+  "ProductType": "Pizza",
+  "Name": "Test Pizza",
+  "Price": 16
+}
+
+###
